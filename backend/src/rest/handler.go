@@ -40,3 +40,21 @@ func (h *Handler) GetProducts(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, products)
 }
+
+func (h *Handler) GetPromos(c *gin.Context) {
+	if h.db == nil {
+		return
+	}
+	promos, err := h.db.GetPromos()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, promos)
+}
+
+func (h *Handler) SignIn(c *gin.Context) {
+	if h.db == nil {
+		return
+	}
+}

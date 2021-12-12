@@ -38,4 +38,5 @@ func RunAPI(address string) error {
 	r.POST("/users/charge", func(c *gin.Context) {
 		// 신용카드 결제 처리
 	})
+	return nil
 }
