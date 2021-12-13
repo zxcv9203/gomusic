@@ -114,3 +114,31 @@ func (h *Handler) SignOut(c *gin.Context) {
 		return
 	}
 }
+
+// 사용자 주문 내역 조회
+func (h *Handler) GetOrders(c *gin.Context) {
+	if h.db == nil {
+		return
+	}
+	// id 매개변수 추출
+	p := c.Param("id")
+	// p 를 string -> int 변경
+	id, err := strconv.Atoi(p)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	// 데이터베이스 레이어 메서드 호출과 주문 내역 조회
+	orders, err := h.db.GetCustomerOrdersById(id)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, orders)
+}
+
+func (h *Handler) Charge(c *gin.Context) {
+	if h.db == nil {
+		return
+	}
+}
