@@ -16,6 +16,9 @@ type Product struct {
 	Description string
 }
 
+// TableName을 따로 지정하지않으면 첫번째 글자가 소문자가 되고
+// 마지막 글자에 s를 추가시키고 해당 이름의 테이블과 매핑합니다.
+// 구조체 : Product -> 테이블 : products 매핑
 func (Product) TableName() string {
 	return "products"
 }
