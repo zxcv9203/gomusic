@@ -1,6 +1,7 @@
 package rest
 
 import (
+	"fmt"
 	"net/http"
 	"strconv"
 
@@ -140,5 +141,32 @@ func (h *Handler) GetOrders(c *gin.Context) {
 func (h *Handler) Charge(c *gin.Context) {
 	if h.db == nil {
 		return
+	}
+}
+
+func MyCustomMiddleware() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		// 요청을 처리하기 전에 실행할 코드
+		// 예제 변수 설정
+		c.Set("v", "123")
+		// c.Get("v")를 하면 변수 값을 확인할 수 있습니다.
+
+		// 요청 처리 로직 실행
+		c.Next()
+
+		// 이 코드는 핸들러 실행이 끝나면 실행됩니다.
+
+		// 응답 코드 확인
+		status := c.Writer.Status()
+		//status를 활용하는 코드 추가
+	}
+}
+
+// MyCustomLogger 요청 처리후 전후에 특정 문자열을 출력하는 간단한 미들웨어
+func MyCustomLogger() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		fmt.Println("*******************************************")
+		c.Next()
+		fmt.Println("*******************************************")
 	}
 }

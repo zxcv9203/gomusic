@@ -8,8 +8,10 @@ import (
 
 func RunAPIWithHandler(address string, h HandlerInterface) error {
 	log.Println("handler")
-	// Gin 엔진
-	r := gin.Default()
+	// Gin 엔진(기본 미들웨어 미사용)
+	r := gin.New()
+	// 요청 처리 전후로 특정 문자열을 출력하는 미들웨어
+	r.Use(MyCustomLogger())
 	// 상품 목록
 	r.GET("/products", h.GetProducts)
 	// 프로모션 목록
