@@ -32,11 +32,11 @@ func RunAPIWithHandler(address string, h HandlerInterface) error {
 		usersGroup.POST("charge", h.Charge)
 	}
 	// 서버 시작
-	return (r.Run(address))
+	return (r.RunTLS(address, "cert.pem", "key.pem"))
 }
 
 func RunAPI(address string) error {
-	h, err := NewHandler()
+	h, err := NewHandler("mysql", "root:root@/gomusic")
 	if err != nil {
 		return err
 	}
