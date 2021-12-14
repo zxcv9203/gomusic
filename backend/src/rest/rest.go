@@ -1,15 +1,14 @@
 package rest
 
 import (
-	"log"
-
 	"github.com/gin-gonic/gin"
 )
 
 func RunAPIWithHandler(address string, h HandlerInterface) error {
-	log.Println("handler")
 	// Gin 엔진(기본 미들웨어 미사용)
-	r := gin.New()
+	//r := gin.New()
+	// Gin 엔진(기본 미들웨어 사용)
+	r := gin.Default()
 	// 요청 처리 전후로 특정 문자열을 출력하는 미들웨어
 	r.Use(MyCustomLogger())
 	// 상품 목록
@@ -41,6 +40,5 @@ func RunAPI(address string) error {
 	if err != nil {
 		return err
 	}
-	log.Println("runapi")
 	return RunAPIWithHandler(address, h)
 }
