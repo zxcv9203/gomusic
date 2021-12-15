@@ -4,6 +4,14 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// socket 연결을 위한 데이터를 세팅해두는 구조체
+type ConnPath struct {
+	username   string
+	password   string
+	socketPath string
+	database   string
+}
+
 func RunAPIWithHandler(address string, h HandlerInterface) error {
 	// Gin 엔진(기본 미들웨어 미사용)
 	//r := gin.New()
@@ -32,11 +40,25 @@ func RunAPIWithHandler(address string, h HandlerInterface) error {
 		usersGroup.POST("charge", h.Charge)
 	}
 	// 서버 시작
-	return (r.RunTLS(address, "cert.pem", "key.pem"))
+	return (r.RunTLS(address, "../../cert.pem", "../../key.pem"))
+}
+
+// Mysql을 Scoket으로 연결하기 위해 사용하는 함수
+func GetSocketConn() string {
+	connInfo := ConnPath{
+		username:   "",
+		password:   "",
+		socketPath: "/var/run/mysqld/mysqld.sock",
+		database:   "gomusic",
+	}
+	conn := connInfo.username + ":" + connInfo.password +
+		"@unix(" + connInfo.socketPath + ")" + "/" +
+		connInfo.database + "?charset=utf8"
+	return conn
 }
 
 func RunAPI(address string) error {
-	h, err := NewHandler("mysql", "root:root@/gomusic")
+	h, err := NewHandler("mysql", GetSocketConn())
 	if err != nil {
 		return err
 	}
