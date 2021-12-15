@@ -1,6 +1,7 @@
 package rest
 
 import (
+	"github.com/gin-contrib/static"
 	"github.com/gin-gonic/gin"
 )
 
@@ -18,7 +19,7 @@ func RunAPIWithHandler(address string, h HandlerInterface) error {
 	// Gin 엔진(기본 미들웨어 사용)
 	r := gin.Default()
 	// 요청 처리 전후로 특정 문자열을 출력하는 미들웨어
-	r.Use(MyCustomLogger())
+	r.Use(MyCustomLogger(), static.ServeRoot("/", "../../public"))
 	// 상품 목록
 	r.GET("/products", h.GetProducts)
 	// 프로모션 목록

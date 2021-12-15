@@ -7,28 +7,41 @@ import Nav from './Navigation';
 import { SignInModalWindow, BuyModalWindow } from './modalwindows';
 import About from './About';
 import Orders from './orders';
+import Cookies from 'js-cookie';
 
 
 class App extends React.Component {
 
   constructor(props) {
     super(props);
+    const user = Cookies.get("user") || {loggedin:false};
     this.state = {
-      user: {
-        loggedin: false,
-        name: "",
-      }
+      user: user,
+      showSignInModal: false,
+      showBuyModal: false
     };
+    this.handleSignedIn = this.handleSignedIn.bind(this);
+    this.handleSignedOut = this.handleSignedOut.bind(this);
     this.showSignInModalWindow = this.showSignInModalWindow.bind(this);
     this.toggleSignInModalWindow = this.toggleSignInModalWindow.bind(this);
     this.showBuyModalWindow = this.showBuyModalWindow.bind(this);
     this.toggleBuyModalWindow = this.toggleBuyModalWindow.bind(this);
+    
   }
 
   handleSignedIn(user) {
-    this.setState({
-      user: user
-    });
+    console.log("Sign in happening...");
+    const state = this.state;
+    const newState = Object.assign({},state,{user:user,showSignInModal:false});
+    this.setState(newState);
+  }
+
+  handleSignedOut(){
+    console.log("Call app signed out...");
+    const state = this.state;
+    const newState = Object.assign({},state,{user:{loggedin:false}});
+    this.setState(newState);
+    Cookies.set("user",{loggedin:false});
   }
 
   showSignInModalWindow(){
@@ -43,7 +56,8 @@ class App extends React.Component {
     this.setState(newState);
   }
 
-  
+
+
   showBuyModalWindow(id,price){
     const state = this.state;
     const newState = Object.assign({},state,{showBuyModal:true,productid:id,price:price});
@@ -55,31 +69,20 @@ class App extends React.Component {
     const newState = Object.assign({},state,{showBuyModal:!state.showBuyModal});
     this.setState(newState); 
   }
-
-  componentDidMount() {
-    fetch('user.json')
-      .then(res => res.json())
-      .then((result) => {
-        console.log('Fetch...');
-        this.setState({
-          user: result
-        });
-      });
-  }
-
+  //location='user.json'
   render() {
     return (
       <div>
         <Router>
           <div>
-            <Nav user={this.state.user} showModalWindow={this.showSignInModalWindow}/>
+            <Nav user={this.state.user} handleSignedOut={this.handleSignedOut} showModalWindow={this.showSignInModalWindow}/>
             <div className='container pt-4 mt-4'>
-              <Route exact path="/" render={() => <CardContainer location='cards.json' showBuyModal={this.showBuyModalWindow} />} />
-              <Route path="/promos" render={() => <CardContainer location='promos.json' promo={true} showBuyModal={this.showBuyModalWindow}/>} />
-              {this.state.user.loggedin ? <Route path="/myorders" render={()=><Orders location='user.json'/>}/> : null}
+              <Route exact path="/" render={() => <CardContainer location='/products' showBuyModal={this.showBuyModalWindow}/>} />
+              <Route path="/promos" render={() => <CardContainer location='/promos' promo={true} showBuyModal={this.showBuyModalWindow}/>} />
+              {this.state.user.loggedin ? <Route path="/myorders" render={()=><Orders location={'/user/'+this.state.user.ID+'/orders'}/>}/> : null}
               <Route path="/about" component={About} />
             </div>
-            <SignInModalWindow showModal={this.state.showSignInModal} toggle={this.toggleSignInModalWindow}/>
+            <SignInModalWindow handleSignedIn={this.handleSignedIn} showModal={this.state.showSignInModal} toggle={this.toggleSignInModalWindow} />
             <BuyModalWindow showModal={this.state.showBuyModal} toggle={this.toggleBuyModalWindow} user={this.state.user.ID} productid={this.state.productid} price={this.state.price}/>
           </div>
         </Router>
@@ -87,6 +90,4 @@ class App extends React.Component {
     );
   }
 }
-
 export default App;
-

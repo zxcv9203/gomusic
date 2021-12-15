@@ -250,7 +250,7 @@ func (h *Handler) Charge(c *gin.Context) {
 //	}
 //}
 
-// MyCustomLogger 요청 처리후 전후에 특정 문자열을 출력하는 간단한 미들웨어
+// MyCustomLogger 요청 처리전에 특정 문자열을 출력하는 간단한 미들웨어
 func MyCustomLogger() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		fmt.Println("*******************************************")

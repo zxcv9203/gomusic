@@ -4,7 +4,7 @@ import React from 'react';
 class Card extends React.Component {
     render() {
         const priceColor = (this.props.promo)? "text-danger" : "text-dark";
-        const sellPrice = (this.props.promo)?this.props.promotion:this.props.price;
+        const sellPrice = (this.props.promo)?this.props.promotion:this.props.price
         return (
             <div className="col-md-6 col-lg-4 d-flex align-items-stretch">
                 <div className="card mb-3">
@@ -42,7 +42,7 @@ export default class CardContainer extends React.Component {
     render() {
         const cards = this.state.cards;
         let items = cards.map(
-            card => <Card key={card.id} {...card} promo={this.props.promo} showBuyModal={this.props.showBuyModal}/>
+            card => <Card  key={card.ID} {...card} promo={this.props.promo} showBuyModal={this.props.showBuyModal} />
         );
         return (
             <div>
