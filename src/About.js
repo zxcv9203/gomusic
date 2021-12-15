@@ -1,3 +1,4 @@
+// About 페이지를 출력합니다.
 import React from 'react';
 
 

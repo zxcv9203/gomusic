@@ -1,3 +1,4 @@
+// 상품 카드 목록을 출력합니다. 일반 상품과 프로모션을 모두 출력합니다.
 import React from 'react';
 
 class Card extends React.Component {

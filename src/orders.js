@@ -1,3 +1,4 @@
+// 로그인한 사용자의 주문 내역을 출력합니다.
 import React from 'react';
 
 function Order(props) {

@@ -1,3 +1,4 @@
+// 페이지 간의 이동에 필요한 탐색 메뉴를 담당합니다.
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 

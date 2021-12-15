@@ -1,3 +1,4 @@
+// 로그인과 신규 사용자 가입, 상품 구매 모달 윈도우와 같은 애플리케이션의 모든 모달 윈도우를 처리합니다.
 import React from 'react';
 import CreditCardInformation from './CreditCards';
 import { Modal, ModalHeader, ModalBody } from 'reactstrap';

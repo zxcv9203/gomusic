@@ -46,8 +46,8 @@ func RunAPIWithHandler(address string, h HandlerInterface) error {
 // Mysql을 Scoket으로 연결하기 위해 사용하는 함수
 func GetSocketConn() string {
 	connInfo := ConnPath{
-		username:   "",
-		password:   "",
+		username:   "root",
+		password:   "Rladydcjf12!",
 		socketPath: "/var/run/mysqld/mysqld.sock",
 		database:   "gomusic",
 	}

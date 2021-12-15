@@ -1,3 +1,4 @@
+// 프론트엔드의 신용카드 결제 로직을 처리합니다.
 import React from 'react';
 import { injectStripe, StripeProvider, Elements, CardElement } from 'react-stripe-elements';
 import Cookies from 'js-cookie';

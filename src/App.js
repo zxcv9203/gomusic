@@ -1,3 +1,5 @@
+// 리액트 애플리케이션의 메인 컴포넌트로, 다른 모든 컴포넌트를 결합합니다.
+// 이 파일의 App 컴포넌트는 사용자 로그인과 로그아웃 등의 중요한 작업을 처리합니다.
 import React from 'react';
 import CardContainer from './ProductCards';
 import { BrowserRouter as Router, Route } from "react-router-dom";
