@@ -15,6 +15,7 @@ import (
 )
 
 type HandlerInterface interface {
+	GetMainPage(c *gin.Context)
 	GetProducts(c *gin.Context)
 	GetPromos(c *gin.Context)
 	AddUser(c *gin.Context)
@@ -43,9 +44,16 @@ func NewHandlerWithDB(db dblayer.DBLayer) HandlerInterface {
 	return &Handler{db: db}
 }
 
+func (h *Handler) GetMainPage(c *gin.Context) {
+	log.Println("Main page....")
+	c.String(http.StatusOK, "Main page for secure API!!")
+	//fmt.Fprintf(c.Writer, "Main page for secure API!!")
+}
+
 // 상품목록 조회
 func (h *Handler) GetProducts(c *gin.Context) {
 	if h.db == nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "server database error"})
 		return
 	}
 	products, err := h.db.GetAllProducts()
@@ -53,15 +61,17 @@ func (h *Handler) GetProducts(c *gin.Context) {
 		/*
 			첫 번째 인자는 HTTP 상태 코드, 두 번째는 응답의 바디
 		*/
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
+	fmt.Printf("Found %d products\n", len(products))
 	c.JSON(http.StatusOK, products)
 }
 
 // 프로모션 조회
 func (h *Handler) GetPromos(c *gin.Context) {
 	if h.db == nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "server database error"})
 		return
 	}
 	promos, err := h.db.GetPromos()

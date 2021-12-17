@@ -13,10 +13,6 @@ import (
 	"github.com/zxcv9203/gomusic/backend/src/models"
 )
 
-type errMSG struct {
-	Error string `json:"error"`
-}
-
 /*
 	GetProducts 함수는 gomusic에서 판매하는 모든 상품의 목록을 반환하는 HTTP 핸들러 함수입니다.
 	HTTP 핸들러 함수는 특정 URL로 HTTP 요청이 들어오면 호출되는 함수이며, 핸들러는 HTTP 요청을 처리하고 HTTP를 통해서 응답을 보냅니다.
@@ -28,6 +24,9 @@ func TestHandler_GetProducts(t *testing.T) {
 	mockdbLayer := dblayer.NewMockDBLayerWithData()
 	h := NewHandlerWithDB(mockdbLayer)
 	const productsURL string = "/products"
+	type errMSG struct {
+		Error string `json:"error"`
+	}
 	// 테스트 케이스를 저장하는 구조체 슬라이스
 	tests := []struct {
 		name             string
@@ -42,7 +41,7 @@ func TestHandler_GetProducts(t *testing.T) {
 			mockdbLayer.GetMockProductData(),
 		},
 		{
-			"getproductswitcherror",
+			"getproductswitherror",
 			errors.New("get products error"),
 			http.StatusInternalServerError,
 			errMSG{Error: "get products error"},
@@ -82,6 +81,7 @@ func TestHandler_GetProducts(t *testing.T) {
 				// 에러가 없을 경우 응답을 product 타입의 슬라이스로 변환
 				products := []models.Product{}
 				json.NewDecoder(response.Body).Decode(&products)
+				respBody = products
 				// 디코딩한 상품 목록을 respBody에 저장
 			}
 			if !reflect.DeepEqual(respBody, tt.expectedRespBody) {
