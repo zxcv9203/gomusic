@@ -526,7 +526,7 @@ func (mock *MockDBLayer) GetCustomerByName(first, last string) (models.Customer,
 }
 
 // 모의 객체를 사용하여 사용자를 조회하는 메서드
-func (mock *MockDBLayer) GetCustomerById(id int) (models.Customer, error) {
+func (mock *MockDBLayer) GetCustomerByID(id int) (models.Customer, error) {
 	result := models.Customer{}
 	if mock.err != nil {
 		return result, mock.err

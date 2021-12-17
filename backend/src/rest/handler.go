@@ -39,6 +39,10 @@ func NewHandler(dbtype, conn string) (HandlerInterface, error) {
 	}, nil
 }
 
+func NewHandlerWithDB(db dblayer.DBLayer) HandlerInterface {
+	return &Handler{db: db}
+}
+
 // 상품목록 조회
 func (h *Handler) GetProducts(c *gin.Context) {
 	if h.db == nil {
